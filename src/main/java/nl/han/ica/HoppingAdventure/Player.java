@@ -5,14 +5,28 @@ import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
+import processing.core.PGraphics;
 
 import java.util.List;
 
-public class Player implements ICollidableWithGameObjects, ICollidableWithTiles {
-
+public class Player extends GameObject implements ICollidableWithGameObjects, ICollidableWithTiles {
+	private HoppingAdventure world;
 	private Sound sound;
 	private int size;
 
+	public Player(int size, HoppingAdventure world) {
+		this.size = size;
+		this.world = world;
+		setWidth(size);
+		setHeight(size);
+	}
+
+	public void draw(PGraphics a) {
+		a.ellipseMode(a.CORNER);
+		a.fill(0, 255, 0, 0);
+		a.ellipse(getX(), getY(), size, size);
+
+	}
 
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
@@ -25,11 +39,6 @@ public class Player implements ICollidableWithGameObjects, ICollidableWithTiles 
 	}
 
 
-
-
-	public Player(HoppingAdventure world) {
-
-	}
 
 	public void Bounce() {
 
@@ -46,5 +55,7 @@ public class Player implements ICollidableWithGameObjects, ICollidableWithTiles 
 	public void GameObjectCollision() {
 
 	}
+	public void update(){
 
+	}
 }

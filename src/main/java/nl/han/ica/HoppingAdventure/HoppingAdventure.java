@@ -14,9 +14,9 @@ import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 import nl.han.ica.waterworld.tiles.BoardsTile;
 import processing.core.PApplet;
 
-
-@SuppressWarnings("serial")
 public class HoppingAdventure extends GameEngine {
+
+	private Player player;
 
 	public static void main(String[] args) {
 		PApplet.main(new String[]{"nl.han.ica.HoppingAdventure.HoppingAdventure"});
@@ -27,18 +27,20 @@ public class HoppingAdventure extends GameEngine {
 		int worldWidth = 500;
 		int worldHeight = 500;
 		createView(worldWidth, worldHeight);
+		createObjects();
 
 	}
 
 	private void createView(int screenWidth, int screenHeight) {
-View view = new View(screenWidth, screenHeight);
-view.setBackground(255, 255, 255);
-setView(view);
-size(screenWidth, screenHeight);
+		View view = new View(screenWidth, screenHeight);
+		view.setBackground(255, 255, 255);
+		setView(view);
+		size(screenWidth, screenHeight);
 	}
 
-	public void createObjects() {
-
+	private void createObjects() {
+player = new Player(20, this);
+addGameObject(player, 200, 200);
 	}
 
 	public void initializeTileMap() {

@@ -24,8 +24,8 @@ public class HoppingAdventure extends GameEngine {
 
 @Override
 	public void setupGame() {
-		int worldWidth = 1000;
-		int worldHeight = 1000;
+		int worldWidth = 500;
+		int worldHeight = 500;
 		createView(worldWidth, worldHeight);
 
 	}

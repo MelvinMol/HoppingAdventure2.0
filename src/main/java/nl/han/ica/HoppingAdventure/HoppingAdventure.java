@@ -16,45 +16,46 @@ import processing.core.PApplet;
 
 public class HoppingAdventure extends GameEngine {
 
-	private Player player;
+    private Player player;
 
-	public static void main(String[] args) {
-		PApplet.main(new String[]{"nl.han.ica.HoppingAdventure.HoppingAdventure"});
-	}
+    public static void main(String[] args) {
+        PApplet.main(new String[]{"nl.han.ica.HoppingAdventure.HoppingAdventure"});
+    }
 
-@Override
-	public void setupGame() {
-		int worldWidth = 500;
-		int worldHeight = 500;
-		createView(worldWidth, worldHeight);
-		createObjects();
+    @Override
+    public void setupGame() {
+        int worldWidth = 500;
+        int worldHeight = 500;
+        createView(worldWidth, worldHeight);
+        createObjects();
 
-	}
+    }
 
-	private void createView(int screenWidth, int screenHeight) {
-		View view = new View(screenWidth, screenHeight);
-		view.setBackground(255, 255, 255);
-		setView(view);
-		size(screenWidth, screenHeight);
-	}
 
-	private void createObjects() {
-player = new Player(20, this);
-addGameObject(player, 200, 200);
-	}
+    private void createView(int screenWidth, int screenHeight) {
+        View view = new View(screenWidth, screenHeight);
+        view.setBackground(255, 255, 255);
+        setView(view);
+        size(screenWidth, screenHeight);
+    }
 
-	public void initializeTileMap() {
+    private void createObjects() {
+        player = new Player(50, this);
+        addGameObject(player, 200, 200);
+    }
 
-	}
+    public void initializeTileMap() {
 
-	public void initializeSound() {
+    }
 
-	}
+    public void initializeSound() {
 
-	public void timer() {
+    }
 
-	}
+    public void timer() {
 
-	public void update() {
-	}
+    }
+
+    public void update() {
+    }
 }

@@ -54,6 +54,11 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                     setySpeed(-40);
                 }
             }
+            if (t.theTile instanceof WeakBlock) {
+                if (t.collisionSide == t.TOP) {
+                    System.out.println("Wow");
+                }
+            }
             }
         }
 

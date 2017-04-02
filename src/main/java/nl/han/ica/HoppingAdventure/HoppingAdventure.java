@@ -52,13 +52,16 @@ public class HoppingAdventure extends GameEngine {
 
     private void initializeTileMap() {
         Sprite blockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Block.png");
-        Sprite spikeBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/SpikeBlock.png");
         Sprite jumpBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/JumpBlock.png");
+        Sprite spikeBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/SpikeBlock.png");
+        Sprite weakBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/WeakBlock.png");
+
         TileType<Block> blockTileType = new TileType<>(Block.class, blockSprite);
         TileType<JumpBlock> jumpBlockTileType = new TileType<>(JumpBlock.class, jumpBlockSprite);
         TileType<SpikeBlock> spikeBlockType = new TileType<>(SpikeBlock.class, spikeBlockSprite);
+        TileType<WeakBlock> weakBlockTileType = new TileType<>(WeakBlock.class, weakBlockSprite);
 
-        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType};
+        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType};
         int tileSize = 100;
         int tilesMap[][] = {
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -70,7 +73,7 @@ public class HoppingAdventure extends GameEngine {
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, 2, 1, 0, 0, -1},
+                {-1, -1, -1, -1, 3, 2, 1, 0, 0, -1},
         };
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }

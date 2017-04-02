@@ -8,7 +8,7 @@ public class WeakBlock extends Tile {
 
 	private Sound sound;
 
-	private WeakBlock(Sprite sprite) {
+	public WeakBlock(Sprite sprite) {
 super(sprite);
 	}
 

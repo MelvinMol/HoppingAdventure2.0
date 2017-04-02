@@ -17,6 +17,8 @@ import processing.core.PApplet;
 public class HoppingAdventure extends GameEngine {
 
     private Player player;
+    private WalkingEnemy walkingEnemy;
+    private Sound deathSound;
 
     public static void main(String[] args) {
         PApplet.main(new String[]{"nl.han.ica.HoppingAdventure.HoppingAdventure"});
@@ -24,10 +26,13 @@ public class HoppingAdventure extends GameEngine {
 
     @Override
     public void setupGame() {
-        int worldWidth = 500;
-        int worldHeight = 500;
+        int worldWidth = 1000;
+        int worldHeight = 1000;
         createView(worldWidth, worldHeight);
+        initializeSound();
+        initializeTileMap();
         createObjects();
+
 
     }
 
@@ -40,17 +45,37 @@ public class HoppingAdventure extends GameEngine {
     }
 
     private void createObjects() {
-        player = new Player(50, this);
-        addGameObject(player, 200, 200);
+        player = new Player(this, deathSound);
+        addGameObject(player, 300, 200);
+//        walkingEnemy = new WalkingEnemy(this, 50);
+//        addGameObject(walkingEnemy, 600, 900);
     }
 
     public void initializeTileMap() {
-
+        Sprite boardsSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Block.png");
+        TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, boardsSprite);
+        TileType[] tileTypes = {boardTileType};
+        int tileSize = 100;
+        int tilesMap[][] = {
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1, -1, -1, 0, 0, -1},
+        };
+        tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 
     public void initializeSound() {
+        deathSound = new Sound(this, "src/main/java/nl/han/ica/HoppingAdventure/Sounds/deathSound.mp3");
 
     }
+
 
     public void timer() {
 

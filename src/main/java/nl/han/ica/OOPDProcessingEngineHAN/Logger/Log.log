@@ -270,3 +270,15 @@ FAILURE: test
 FAILURE: test
 [2015-51-08 10:51:39.436] 
 FAILURE: test
+[2017-21-02 12:21:57.184] 
+FAILURE: java.lang.NullPointerException
+[2017-21-02 12:21:57.195] 
+FAILURE: java.lang.NullPointerException
+[2017-21-02 12:21:57.195] 
+FAILURE: java.lang.NullPointerException
+[2017-21-02 12:21:57.196] 
+FAILURE: java.lang.NullPointerException
+[2017-21-02 12:21:57.196] 
+FAILURE: java.lang.NullPointerException
+[2017-21-02 12:21:57.196] 
+FAILURE: java.lang.NullPointerException

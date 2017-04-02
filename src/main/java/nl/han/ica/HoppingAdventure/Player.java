@@ -50,10 +50,10 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     @Override
     public void keyPressed(int keyCode, char key) {
         int speed = 10;
-        if (key == 'a' && getY() > 100) {
+        if (key == 'a') {
             setDirectionSpeed(270, speed);
         }
-        if (key == 'd' && getY() > 100) {
+        if (key == 'd') {
             setDirectionSpeed(90, speed);
         }
     }

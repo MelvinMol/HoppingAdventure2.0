@@ -4,12 +4,14 @@ import nl.han.ica.OOPDProcessingEngineHAN.Tile.Tile;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 
-public class SpikeBlock extends Tile {
+public class Block extends Tile {
 
-	private Sound sound;
+    private Sound sound;
 
-	public SpikeBlock(Sprite sprite) {
-super(sprite);
-	}
+    public Block(Sprite sprite) {
+        super(sprite);
+    }
 
 }
+
+

@@ -7,7 +7,6 @@ import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
-import nl.han.ica.waterworld.tiles.BoardsTile;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -18,7 +17,7 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     private Sound deathSound;
     private int size;
 
-    public Player(HoppingAdventure world, Sound deathSound) {
+   public Player(HoppingAdventure world, Sound deathSound) {
         super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball.png"));
         this.deathSound = deathSound;
         this.world = world;
@@ -39,13 +38,25 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
         for (CollidedTile t : collidedTiles) {
-            if (t.theTile instanceof BoardsTile) {
+            if (t.theTile instanceof Block) {
                 if (t.collisionSide == t.TOP) {
                     setySpeed(-20);
                 }
             }
+            if (t.theTile instanceof SpikeBlock) {
+                if (t.collisionSide == t.TOP) {
+                    deathSound.play();
+                    setVisible(false);
+                }
+            }
+            if (t.theTile instanceof JumpBlock) {
+                if (t.collisionSide == t.TOP) {
+                    setySpeed(-40);
+                }
+            }
+            }
         }
-    }
+
 
     @Override
     public void keyPressed(int keyCode, char key) {

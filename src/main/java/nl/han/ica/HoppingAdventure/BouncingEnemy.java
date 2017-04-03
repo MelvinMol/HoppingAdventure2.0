@@ -8,7 +8,7 @@ import processing.core.PGraphics;
 
 import java.util.List;
 
-public class BouncingEnemy extends SpriteObject implements Enemy, ICollidableWithTiles {
+public class BouncingEnemy extends Enemy implements ICollidableWithTiles {
 
     private HoppingAdventure world;
 
@@ -51,7 +51,6 @@ public class BouncingEnemy extends SpriteObject implements Enemy, ICollidableWit
             }
         }
     }
-
 
     @Override
     public void update() {

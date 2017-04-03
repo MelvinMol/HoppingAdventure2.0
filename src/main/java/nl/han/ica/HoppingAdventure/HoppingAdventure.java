@@ -20,6 +20,7 @@ public class HoppingAdventure extends GameEngine {
     private WalkingEnemy walkingEnemy;
     private FlyingEnemy flyingEnemy;
     private Finish finish;
+    private SpeedPowerUp speedPowerUp;
     private DartBlock dartBlock;
     private Sound deathSound;
 
@@ -55,9 +56,11 @@ public class HoppingAdventure extends GameEngine {
         bouncingEnemy = new BouncingEnemy(this);
         addGameObject(bouncingEnemy, 600, 300);
         dartBlock = new DartBlock(this);
-        addGameObject(dartBlock, 950, 600);
+        addGameObject(dartBlock, 950, 650);
         flyingEnemy = new FlyingEnemy(this);
         addGameObject(flyingEnemy, 400, 400);
+        speedPowerUp = new SpeedPowerUp(this);
+        addGameObject(speedPowerUp, 400,650);
 
     }
 
@@ -92,7 +95,7 @@ public class HoppingAdventure extends GameEngine {
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 { 0,  2,  1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4},
-                { 0, -1, -1, -1,  0,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  1,  3,  3,  1,  0},
+                { 0, -1, -1, -1,  0,  3,  3,  0,  0,  3,  3,  3,  3,  3,  3,  1,  3,  3,  1,  0},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
@@ -104,10 +107,6 @@ public class HoppingAdventure extends GameEngine {
 
     private void initializeSound() {
         deathSound = new Sound(this, "src/main/java/nl/han/ica/HoppingAdventure/Sounds/deathSound.mp3");
-
-    }
-
-    public void timer() {
 
     }
 

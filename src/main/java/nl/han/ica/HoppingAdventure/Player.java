@@ -17,6 +17,7 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     private HoppingAdventure world;
     private Sound deathSound;
     private int size;
+    public static int speed = 10;
     private boolean keya, keyd;
 
     public Player(HoppingAdventure world, Sound deathSound) {
@@ -42,6 +43,10 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                 world.deleteAllGameOBjects();
                 world.setupGame();
             }
+            if (a instanceof SpeedPowerUp) {
+                SpeedPowerUp b = (SpeedPowerUp) a;
+                b.IncreaseSpeed();
+            }
         }
     }
 
@@ -64,7 +69,6 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                 if (ct.collisionSide == ct.BOTTOM) {
                     setySpeed(0);
                 }
-
             }
 
             if (ct.collisionSide == ct.TOP) {
@@ -88,7 +92,6 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                     setySpeed(-15);
                 }
             }
-
         }
     }
 
@@ -118,8 +121,8 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
         setGravity(1);
 
         setxSpeed(0);
-        if (keya) setxSpeed(-10);
-        if (keyd) setxSpeed(10);
+        if (keya) setxSpeed(-speed);
+        if (keyd) setxSpeed(speed);
 
         if (getX() <= 0) {
             setxSpeed(0);
@@ -136,7 +139,6 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
         if (getY() >= world.getHeight() - size) {
             world.deleteAllGameOBjects();
             world.setupGame();
-
         }
     }
 }

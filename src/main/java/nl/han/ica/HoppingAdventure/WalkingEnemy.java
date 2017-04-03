@@ -12,14 +12,12 @@ import processing.core.PVector;
 import java.util.List;
 
 
-public class WalkingEnemy extends SpriteObject implements Enemy, ICollidableWithTiles {
+public class WalkingEnemy extends Enemy implements ICollidableWithTiles {
 
     private HoppingAdventure world;
-    private int direction;
 
     public WalkingEnemy(HoppingAdventure world, int direction) {
         this(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
-        this.direction = direction;
         this.world = world;
 
     }
@@ -40,27 +38,21 @@ public class WalkingEnemy extends SpriteObject implements Enemy, ICollidableWith
                     setY(vector.y - getHeight());
                 }
                 if (t.collisionSide == t.LEFT) {
-                    direction = 90;
+                    direction = 270;
                 }
                 if (t.collisionSide == t.RIGHT) {
-                    direction = 270;
+                    direction = 90;
                 }
             }
             if(t.theTile instanceof InvisibleBlock){
                 if(t.collisionSide == t.LEFT){
-                    direction = 90;
+                    direction = 270;
                 }
                 if(t.collisionSide == t.RIGHT){
-                    direction = 270;
+                    direction = 90;
                 }
             }
         }
-    }
-
-    @Override
-    public void update() {
-        setDirectionSpeed(direction, 5);
-        setGravity(1);
     }
 }
 

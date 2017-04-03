@@ -29,21 +29,18 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject a : collidedGameObjects) {
 
-            if (a instanceof WalkingEnemy) {
-                deathSound.play();
-                setVisible(false);
-            }
-            if (a instanceof BouncingEnemy) {
-                deathSound.play();
-                setVisible(false);
-            }
-            if (a instanceof FlyingEnemy) {
-                deathSound.play();
-                setVisible(false);
+            if (a instanceof WalkingEnemy || a instanceof BouncingEnemy || a instanceof FlyingEnemy) {
+                world.deleteAllGameOBjects();
+                world.setupGame();
             }
             if (a instanceof Finish) {
                 deathSound.play();
                 System.out.println("WOWOWOWOOWOWOWOWOWOW");
+            }
+            if (a instanceof Dart) {
+                deathSound.play();
+                world.deleteAllGameOBjects();
+                world.setupGame();
             }
         }
     }
@@ -51,85 +48,47 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
-        PVector TileLocation;
+        PVector vector;
 
-        for (CollidedTile t : collidedTiles) {
+        for (CollidedTile ct : collidedTiles) {
+            if (ct.theTile instanceof Block || ct.theTile instanceof JumpBlock || ct.theTile instanceof  SpikeBlock|| ct.theTile instanceof WeakBlock) {
+                if (ct.collisionSide == ct.LEFT) {
+                    vector = world.getTileMap().getTilePixelLocation(ct.theTile);
+                    setX(vector.x - width);
+                }
+                if (ct.collisionSide == ct.RIGHT) {
+                    vector = world.getTileMap().getTilePixelLocation(ct.theTile);
+                    setX(vector.x + world.getTileMap().getTileSize());
+                }
 
-            if (t.theTile instanceof Block) {
-                if (t.collisionSide == t.TOP) {
+                if (ct.collisionSide == ct.BOTTOM) {
+                    setySpeed(0);
+                }
+
+            }
+
+            if (ct.collisionSide == ct.TOP) {
+                if (ct.theTile instanceof Block) {
                     setySpeed(-15);
                 }
-                if (t.collisionSide == t.BOTTOM) {
-                    setySpeed(2);
-                }
-                if (t.collisionSide == t.LEFT) {
-                    setxSpeed(2);
-                }
-                if (t.collisionSide == t.BOTTOM) {
-                    setySpeed(2);
 
-                }
-            }
-            if (t.theTile instanceof SpikeBlock) {
-                if (t.collisionSide == t.TOP) {
-                    deathSound.play();
-                    setVisible(false);
-                }
-                if (t.collisionSide == t.LEFT) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.BOTTOM) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.RIGHT) {
-                    setxSpeed(0);
-                }
-            }
-            if (t.theTile instanceof JumpBlock) {
-                if (t.collisionSide == t.TOP) {
+                if (ct.theTile instanceof JumpBlock) {
                     setySpeed(-25);
                 }
-                if (t.collisionSide == t.LEFT) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.BOTTOM) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.RIGHT) {
-                    setxSpeed(0);
-                }
-            }
-            if (t.theTile instanceof WeakBlock) {
 
-                if (t.collisionSide == t.TOP) {
-                    setySpeed(-20);
+                if (ct.theTile instanceof SpikeBlock) {
+                    deathSound.play();
+                    world.deleteAllGameOBjects();
+                    world.setupGame();
                 }
-                if (t.collisionSide == t.LEFT) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.BOTTOM) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.RIGHT) {
-                    setxSpeed(0);
-                }
-                TileLocation = world.getTileMap().getTilePixelLocation(t.theTile);
-                world.getTileMap().setTile((int) TileLocation.x / 50, (int) TileLocation.y / 50, -1);
-            }
-            if (t.theTile instanceof DartBlock) {
-                if (t.collisionSide == t.TOP) {
-                    setySpeed(-20);
-                }
-                if (t.collisionSide == t.LEFT) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.BOTTOM) {
-                    setxSpeed(0);
-                }
-                if (t.collisionSide == t.RIGHT) {
-                    setxSpeed(0);
+
+                if (ct.theTile instanceof WeakBlock) {
+                    vector = world.getTileMap().getTilePixelLocation(ct.theTile);
+                    world.getTileMap().setTile((int) vector.x / 50, (int) vector.y / 50, -1);
+                    setySpeed(-15);
                 }
             }
+
         }
     }
 
@@ -175,14 +134,9 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
             setDirectionSpeed(270, 10);
         }
         if (getY() >= world.getHeight() - size) {
-            deathSound.play();
-            setVisible(false);
+            world.deleteAllGameOBjects();
+            world.setupGame();
 
-        }
-        if (!isVisible()) {
-            setVisible(true);
-            setX(70);
-            setY(800);
         }
     }
 }

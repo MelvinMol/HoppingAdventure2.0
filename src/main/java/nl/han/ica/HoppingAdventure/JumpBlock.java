@@ -9,7 +9,7 @@ public class JumpBlock extends Tile {
 	private Sound sound;
 
 	public JumpBlock(Sprite sprite) {
-super(sprite);
+		super(sprite);
 	}
 
 }

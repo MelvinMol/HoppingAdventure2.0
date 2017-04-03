@@ -18,7 +18,9 @@ public class HoppingAdventure extends GameEngine {
     private Player player;
     private BouncingEnemy bouncingEnemy;
     private WalkingEnemy walkingEnemy;
+    private FlyingEnemy flyingEnemy;
     private Finish finish;
+    private DartBlock dartBlock;
     private Sound deathSound;
 
     public static void main(String[] args) {
@@ -33,8 +35,6 @@ public class HoppingAdventure extends GameEngine {
         initializeSound();
         initializeTileMap();
         createObjects();
-
-
     }
 
 
@@ -48,12 +48,17 @@ public class HoppingAdventure extends GameEngine {
     private void createObjects() {
         player = new Player(this, deathSound);
         addGameObject(player, 70, 800);
-        walkingEnemy = new WalkingEnemy(this, 50, 90);
+        walkingEnemy = new WalkingEnemy(this, 90);
         addGameObject(walkingEnemy, 300, 100);
         finish = new Finish(this, 50);
         addGameObject(finish, 850, 880);
         bouncingEnemy = new BouncingEnemy(this);
         addGameObject(bouncingEnemy, 600, 300);
+        dartBlock = new DartBlock(this);
+        addGameObject(dartBlock, 950, 600);
+        flyingEnemy = new FlyingEnemy(this);
+        addGameObject(flyingEnemy, 400, 400);
+
     }
 
     private void initializeTileMap() {
@@ -61,40 +66,38 @@ public class HoppingAdventure extends GameEngine {
         Sprite jumpBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/JumpBlock.png");
         Sprite spikeBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/SpikeBlock.png");
         Sprite weakBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/WeakBlock.png");
-        Sprite dartBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/DartBlock.png");
         Sprite invisibleBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/InvisibleBlock.png");
 
         TileType<Block> blockTileType = new TileType<>(Block.class, blockSprite);
         TileType<JumpBlock> jumpBlockTileType = new TileType<>(JumpBlock.class, jumpBlockSprite);
         TileType<SpikeBlock> spikeBlockType = new TileType<>(SpikeBlock.class, spikeBlockSprite);
         TileType<WeakBlock> weakBlockTileType = new TileType<>(WeakBlock.class, weakBlockSprite);
-        TileType<DartBlock> dartBlockTileType = new TileType<>(DartBlock.class, dartBlockSprite);
         TileType<InvisibleBlock> invisibleBlockTileType = new TileType<>(InvisibleBlock.class, invisibleBlockSprite);
 
 
-        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType, dartBlockTileType, invisibleBlockTileType};
+        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType, invisibleBlockTileType};
         int tileSize = 50;
         int tilesMap[][] = {
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, 5,  0,  0,  0,  0,  0,  0,  0,  0,  0, 5, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, 5},
-                {0, -1, -1, -1, 2, 0, -1, -1, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1,-1, 5},
-                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, 0, 0,  0, 0, 0, 0, 0, 0, 0},
-                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
-                {0, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 4},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 3, 3, 1, 0},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
-                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
-                {0, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
-                {0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,0, 0, 0, 0},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1,  -1, 4},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1,  -1, 4},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4},
+                { 0, -1,  1,  2,  0, -1, -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0,  2,  1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4},
+                { 0, -1, -1, -1,  0,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  1,  3,  3,  1,  0},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
+                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
+                { 0, -1, -1,  2,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0},
+                { 0,  0,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0,  0},
         };
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
@@ -103,7 +106,6 @@ public class HoppingAdventure extends GameEngine {
         deathSound = new Sound(this, "src/main/java/nl/han/ica/HoppingAdventure/Sounds/deathSound.mp3");
 
     }
-
 
     public void timer() {
 

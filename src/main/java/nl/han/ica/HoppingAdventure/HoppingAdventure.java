@@ -16,7 +16,9 @@ import processing.core.PApplet;
 public class HoppingAdventure extends GameEngine {
 
     private Player player;
+    private BouncingEnemy bouncingEnemy;
     private WalkingEnemy walkingEnemy;
+    private Finish finish;
     private Sound deathSound;
 
     public static void main(String[] args) {
@@ -45,9 +47,13 @@ public class HoppingAdventure extends GameEngine {
 
     private void createObjects() {
         player = new Player(this, deathSound);
-        addGameObject(player, 300, 200);
-     //  walkingEnemy = new WalkingEnemy(this, 50);
-       //addGameObject(walkingEnemy, 600, 900);
+        addGameObject(player, 70, 800);
+        walkingEnemy = new WalkingEnemy(this, 50, 90);
+        addGameObject(walkingEnemy, 300, 100);
+        finish = new Finish(this, 50);
+        addGameObject(finish, 850, 880);
+        bouncingEnemy = new BouncingEnemy(this);
+        addGameObject(bouncingEnemy, 600, 300);
     }
 
     private void initializeTileMap() {
@@ -55,25 +61,40 @@ public class HoppingAdventure extends GameEngine {
         Sprite jumpBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/JumpBlock.png");
         Sprite spikeBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/SpikeBlock.png");
         Sprite weakBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/WeakBlock.png");
+        Sprite dartBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/DartBlock.png");
+        Sprite invisibleBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/InvisibleBlock.png");
 
         TileType<Block> blockTileType = new TileType<>(Block.class, blockSprite);
         TileType<JumpBlock> jumpBlockTileType = new TileType<>(JumpBlock.class, jumpBlockSprite);
         TileType<SpikeBlock> spikeBlockType = new TileType<>(SpikeBlock.class, spikeBlockSprite);
         TileType<WeakBlock> weakBlockTileType = new TileType<>(WeakBlock.class, weakBlockSprite);
+        TileType<DartBlock> dartBlockTileType = new TileType<>(DartBlock.class, dartBlockSprite);
+        TileType<InvisibleBlock> invisibleBlockTileType = new TileType<>(InvisibleBlock.class, invisibleBlockSprite);
 
-        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType};
-        int tileSize = 100;
+
+        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType, dartBlockTileType, invisibleBlockTileType};
+        int tileSize = 50;
         int tilesMap[][] = {
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 3, 2, 1, 0, 0, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, 5,  0,  0,  0,  0,  0,  0,  0,  0,  0, 5, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, 5},
+                {0, -1, -1, -1, 2, 0, -1, -1, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1,-1, 5},
+                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, 0, 0,  0, 0, 0, 0, 0, 0, 0},
+                {0, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 4},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 3, 3, 1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,0, 0, 0, 0},
         };
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }

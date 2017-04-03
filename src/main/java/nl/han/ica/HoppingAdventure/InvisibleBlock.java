@@ -7,11 +7,11 @@ import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import processing.core.PGraphics;
 
-public class WeakBlock extends Tile{
+public class InvisibleBlock extends Tile{
 
     private Sound sound;
 
-    public WeakBlock(Sprite sprite) {
+    public InvisibleBlock(Sprite sprite) {
         super(sprite);
     }
 

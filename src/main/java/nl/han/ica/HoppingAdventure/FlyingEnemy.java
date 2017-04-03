@@ -37,8 +37,5 @@ public void draw(PGraphics a){
 
 	}
 
-	@Override
-	public void tileCollision() {
 
-	}
 }

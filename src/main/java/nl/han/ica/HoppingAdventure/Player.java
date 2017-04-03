@@ -7,6 +7,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
+import nl.han.ica.OOPDProcessingEngineHAN.Tile.Tile;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -16,9 +17,10 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     private HoppingAdventure world;
     private Sound deathSound;
     private int size;
+    private boolean keya, keyd;
 
-   public Player(HoppingAdventure world, Sound deathSound) {
-        super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball.png"));
+    public Player(HoppingAdventure world, Sound deathSound) {
+        super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
         this.deathSound = deathSound;
         this.world = world;
     }
@@ -26,10 +28,22 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject a : collidedGameObjects) {
-            System.out.println("hoi");
+
             if (a instanceof WalkingEnemy) {
                 deathSound.play();
                 setVisible(false);
+            }
+            if (a instanceof BouncingEnemy) {
+                deathSound.play();
+                setVisible(false);
+            }
+            if (a instanceof FlyingEnemy) {
+                deathSound.play();
+                setVisible(false);
+            }
+            if (a instanceof Finish) {
+                deathSound.play();
+                System.out.println("WOWOWOWOOWOWOWOWOWOW");
             }
         }
     }
@@ -37,10 +51,23 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
+        PVector TileLocation;
+
         for (CollidedTile t : collidedTiles) {
+
             if (t.theTile instanceof Block) {
                 if (t.collisionSide == t.TOP) {
-                    setySpeed(-20);
+                    setySpeed(-15);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setySpeed(2);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(2);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setySpeed(2);
+
                 }
             }
             if (t.theTile instanceof SpikeBlock) {
@@ -48,45 +75,98 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                     deathSound.play();
                     setVisible(false);
                 }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
+                }
             }
             if (t.theTile instanceof JumpBlock) {
                 if (t.collisionSide == t.TOP) {
-                    setySpeed(-40);
+                    setySpeed(-25);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
                 }
             }
             if (t.theTile instanceof WeakBlock) {
+
                 if (t.collisionSide == t.TOP) {
-                    System.out.println("Wow");
+                    setySpeed(-20);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
+                }
+                TileLocation = world.getTileMap().getTilePixelLocation(t.theTile);
+                world.getTileMap().setTile((int) TileLocation.x / 50, (int) TileLocation.y / 50, -1);
+            }
+            if (t.theTile instanceof DartBlock) {
+                if (t.collisionSide == t.TOP) {
+                    setySpeed(-20);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
                 }
             }
-            }
         }
+    }
 
 
     @Override
     public void keyPressed(int keyCode, char key) {
-        int speed = 10;
         if (key == 'a') {
-            setDirectionSpeed(270, speed);
+            keya = true;
         }
         if (key == 'd') {
-            setDirectionSpeed(90, speed);
+            keyd = true;
         }
     }
 
     @Override
     public void keyReleased(int keyCode, char key) {
-        setDirectionSpeed(0, 0);
+        if (key == 'a') {
+            keya = false;
+        }
+        if (key == 'd') {
+            keyd = false;
+        }
+
     }
 
     public void update() {
-            setGravity(1);
+        setGravity(1);
+
+        setxSpeed(0);
+        if (keya) setxSpeed(-10);
+        if (keyd) setxSpeed(10);
 
         if (getX() <= 0) {
             setxSpeed(0);
             setDirectionSpeed(90, 10);
         }
-        if (getY() <= 0) {
+        if (getY() <= 20) {
             setySpeed(0);
         }
         if (getX() >= world.getWidth() - size) {
@@ -95,15 +175,14 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
             setDirectionSpeed(270, 10);
         }
         if (getY() >= world.getHeight() - size) {
-            setySpeed(0);
-            setY(world.getHeight() - size);
-            setySpeed(-20);
+            deathSound.play();
+            setVisible(false);
 
         }
         if (!isVisible()) {
             setVisible(true);
-            setX(300);
-            setY(200);
+            setX(70);
+            setY(800);
         }
     }
 }

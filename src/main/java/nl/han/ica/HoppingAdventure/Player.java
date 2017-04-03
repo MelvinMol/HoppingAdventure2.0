@@ -18,7 +18,7 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     private int size;
 
    public Player(HoppingAdventure world, Sound deathSound) {
-        super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball.png"));
+        super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
         this.deathSound = deathSound;
         this.world = world;
     }
@@ -26,10 +26,14 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject a : collidedGameObjects) {
-            System.out.println("hoi");
+
             if (a instanceof WalkingEnemy) {
                 deathSound.play();
                 setVisible(false);
+            }
+            if (a instanceof Finish) {
+                deathSound.play();
+                System.out.println("WOWOWOWOOWOWOWOWOWOW");
             }
         }
     }
@@ -38,9 +42,19 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
         for (CollidedTile t : collidedTiles) {
+
             if (t.theTile instanceof Block) {
                 if (t.collisionSide == t.TOP) {
-                    setySpeed(-20);
+                    setySpeed(-15);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setySpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
                 }
             }
             if (t.theTile instanceof SpikeBlock) {
@@ -48,19 +62,61 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                     deathSound.play();
                     setVisible(false);
                 }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
+                }
             }
             if (t.theTile instanceof JumpBlock) {
                 if (t.collisionSide == t.TOP) {
-                    setySpeed(-40);
+                    setySpeed(-25);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
                 }
             }
             if (t.theTile instanceof WeakBlock) {
                 if (t.collisionSide == t.TOP) {
-                    System.out.println("Wow");
+                    setySpeed(-20);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
+                }
+
+            }
+            if (t.theTile instanceof DartBlock) {
+                if (t.collisionSide == t.TOP) {
+                    setySpeed(-20);
+                }
+                if (t.collisionSide == t.LEFT) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.BOTTOM) {
+                    setxSpeed(0);
+                }
+                if (t.collisionSide == t.RIGHT) {
+                    setxSpeed(0);
                 }
             }
-            }
         }
+    }
 
 
     @Override
@@ -86,7 +142,7 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
             setxSpeed(0);
             setDirectionSpeed(90, 10);
         }
-        if (getY() <= 0) {
+        if (getY() <= 20) {
             setySpeed(0);
         }
         if (getX() >= world.getWidth() - size) {
@@ -95,15 +151,14 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
             setDirectionSpeed(270, 10);
         }
         if (getY() >= world.getHeight() - size) {
-            setySpeed(0);
-            setY(world.getHeight() - size);
-            setySpeed(-20);
+            deathSound.play();
+            setVisible(false);
 
         }
         if (!isVisible()) {
             setVisible(true);
-            setX(300);
-            setY(200);
+            setX(70);
+            setY(100);
         }
     }
 }

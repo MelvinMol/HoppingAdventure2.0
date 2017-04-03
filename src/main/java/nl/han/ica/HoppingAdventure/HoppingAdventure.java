@@ -17,6 +17,7 @@ public class HoppingAdventure extends GameEngine {
 
     private Player player;
     private WalkingEnemy walkingEnemy;
+    private Finish finish;
     private Sound deathSound;
 
     public static void main(String[] args) {
@@ -45,9 +46,11 @@ public class HoppingAdventure extends GameEngine {
 
     private void createObjects() {
         player = new Player(this, deathSound);
-        addGameObject(player, 300, 200);
+        addGameObject(player, 70, 100);
      //  walkingEnemy = new WalkingEnemy(this, 50);
        //addGameObject(walkingEnemy, 600, 900);
+        finish = new Finish(this, 50);
+        addGameObject(finish, 850, 880);
     }
 
     private void initializeTileMap() {
@@ -55,25 +58,38 @@ public class HoppingAdventure extends GameEngine {
         Sprite jumpBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/JumpBlock.png");
         Sprite spikeBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/SpikeBlock.png");
         Sprite weakBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/WeakBlock.png");
+        Sprite dartBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/DartBlock.png");
 
         TileType<Block> blockTileType = new TileType<>(Block.class, blockSprite);
         TileType<JumpBlock> jumpBlockTileType = new TileType<>(JumpBlock.class, jumpBlockSprite);
         TileType<SpikeBlock> spikeBlockType = new TileType<>(SpikeBlock.class, spikeBlockSprite);
         TileType<WeakBlock> weakBlockTileType = new TileType<>(WeakBlock.class, weakBlockSprite);
+        TileType<DartBlock> dartBlockTileType = new TileType<>(DartBlock.class, dartBlockSprite);
 
-        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType};
-        int tileSize = 100;
+
+        TileType[] tileTypes = {blockTileType, spikeBlockType, jumpBlockTileType, weakBlockTileType, dartBlockTileType};
+        int tileSize = 50;
         int tilesMap[][] = {
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 3, 2, 1, 0, 0, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, 3, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, -1},
+                {0, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 4},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 3, 3, 1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1, -1, 0},
+                {0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,0, 0, 0, 0},
         };
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }

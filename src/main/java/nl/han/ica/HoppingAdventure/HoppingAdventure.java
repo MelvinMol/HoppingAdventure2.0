@@ -50,7 +50,7 @@ public class HoppingAdventure extends GameEngine {
         player = new Player(this, deathSound);
         addGameObject(player, 70, 800);
         walkingEnemy = new WalkingEnemy(this, 90);
-        addGameObject(walkingEnemy, 300, 100);
+        addGameObject(walkingEnemy, 400, 100);
         finish = new Finish(this, 50);
         addGameObject(finish, 850, 880);
         bouncingEnemy = new BouncingEnemy(this);
@@ -85,7 +85,7 @@ public class HoppingAdventure extends GameEngine {
                 { 0, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1},
                 { 0, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1},
                 { 0, -1, -1,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, -1, -1, -1, -1, -1, -1},
-                { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                { 0, -1, -1,  4,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1,  -1, 4},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1,  4, -1, -1, -1, -1, -1, -1, -1,  -1, 4},
                 { 0, -1, -1, -1,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  4},

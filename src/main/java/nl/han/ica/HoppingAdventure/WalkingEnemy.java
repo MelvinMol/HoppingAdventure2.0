@@ -15,11 +15,12 @@ import java.util.List;
 public class WalkingEnemy extends Enemy implements ICollidableWithTiles {
 
     private HoppingAdventure world;
+    private int direction;
 
     public WalkingEnemy(HoppingAdventure world, int direction) {
         this(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
+        this.direction = direction;
         this.world = world;
-
     }
 
     private WalkingEnemy(Sprite sprite) {
@@ -48,11 +49,16 @@ public class WalkingEnemy extends Enemy implements ICollidableWithTiles {
                 if(t.collisionSide == t.LEFT){
                     direction = 270;
                 }
-                if(t.collisionSide == t.RIGHT){
-                    direction = 90;
-                }
+               if(t.collisionSide == t.RIGHT){
+                   direction = 90;
+               }
             }
         }
+    }
+
+    @Override
+    public void update() {
+
     }
 }
 

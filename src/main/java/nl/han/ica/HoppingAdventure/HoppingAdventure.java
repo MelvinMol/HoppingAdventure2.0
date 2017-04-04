@@ -47,9 +47,9 @@ public class HoppingAdventure extends GameEngine {
     }
 
     private void createObjects() {
-        player = new Player(this, deathSound);
+        player = new Player(this, deathSound, 30);
         addGameObject(player, 70, 800);
-        walkingEnemy = new WalkingEnemy(this, 90);
+        walkingEnemy = new WalkingEnemy(this);
         addGameObject(walkingEnemy, 300, 100);
         finish = new Finish(this, 50);
         addGameObject(finish, 850, 880);

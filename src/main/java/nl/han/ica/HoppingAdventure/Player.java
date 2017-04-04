@@ -13,17 +13,29 @@ import processing.core.PVector;
 
 import java.util.List;
 
-public class Player extends SpriteObject implements ICollidableWithTiles, ICollidableWithGameObjects {
+public class Player extends GameObject implements ICollidableWithTiles, ICollidableWithGameObjects {
     private HoppingAdventure world;
     private Sound deathSound;
     private int size;
+    private int left = 'a';
+    private int right = 'd';
     public static int speed = 10;
     private boolean keya, keyd;
 
-    public Player(HoppingAdventure world, Sound deathSound) {
-        super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
+    public Player(HoppingAdventure world, Sound deathSound, int size) {
         this.deathSound = deathSound;
         this.world = world;
+        this.size = size;
+        setHeight(size);
+        setWidth(size);
+    }
+
+    @Override
+    public void draw(PGraphics g) {
+        g.ellipseMode(g.CORNER);
+        g.stroke(0);
+        g.fill(255, 255, 0);
+        g.ellipse(getX(), getY(), size, size);
     }
 
     @Override
@@ -35,6 +47,8 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
                 world.setupGame();
             }
             if (a instanceof Finish) {
+                world.deleteAllGameOBjects();
+                world.setupGame();
                 deathSound.play();
                 System.out.println("WOWOWOWOOWOWOWOWOWOW");
             }
@@ -98,20 +112,20 @@ public class Player extends SpriteObject implements ICollidableWithTiles, IColli
 
     @Override
     public void keyPressed(int keyCode, char key) {
-        if (key == 'a') {
+        if (key == left) {
             keya = true;
         }
-        if (key == 'd') {
+        if (key == right) {
             keyd = true;
         }
     }
 
     @Override
     public void keyReleased(int keyCode, char key) {
-        if (key == 'a') {
+        if (key == left) {
             keya = false;
         }
-        if (key == 'd') {
+        if (key == right) {
             keyd = false;
         }
 

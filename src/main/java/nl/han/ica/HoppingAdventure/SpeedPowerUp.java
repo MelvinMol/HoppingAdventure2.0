@@ -19,10 +19,11 @@ import processing.core.PGraphics;
         }
 
         public void IncreaseSpeed() {
-            Player.speed = 5;
-            world.deleteGameObject(this);
+//            Player.left = 'd';
+//            Player.right = 'a';
+                Player.speed = 5;
+                world.deleteGameObject(this);
         }
-
         @Override
         public void update() {
 

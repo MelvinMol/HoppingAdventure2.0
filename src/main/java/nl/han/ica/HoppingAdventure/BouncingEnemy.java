@@ -8,19 +8,20 @@ import processing.core.PGraphics;
 
 import java.util.List;
 
-public class BouncingEnemy extends Enemy implements ICollidableWithTiles {
+public class BouncingEnemy extends Enemy {
 
     private HoppingAdventure world;
 
     public BouncingEnemy(HoppingAdventure world) {
-        this(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
+        super(30);
         this.world = world;
+        b = 255;
     }
+    /**
+     * @param collidedTiles dit zijn alle tiles in de tilemap
 
-    private BouncingEnemy(Sprite sprite) {
-        super(sprite);
+     */
 
-    }
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {

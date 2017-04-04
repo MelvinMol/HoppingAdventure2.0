@@ -36,4 +36,5 @@ public class DartBlock extends SpriteObject implements IAlarmListener {
     @Override
     public void update() {
     }
+
 }

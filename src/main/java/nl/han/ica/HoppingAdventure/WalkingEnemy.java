@@ -12,20 +12,17 @@ import processing.core.PVector;
 import java.util.List;
 
 
-public class WalkingEnemy extends Enemy implements ICollidableWithTiles {
+public class WalkingEnemy extends Enemy {
 
     private HoppingAdventure world;
-    private int direction;
 
-    public WalkingEnemy(HoppingAdventure world, int direction) {
-        this(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
-        this.direction = direction;
+    public WalkingEnemy(HoppingAdventure world) {
+        super(30);
         this.world = world;
+        g = 255;
+
     }
 
-    private WalkingEnemy(Sprite sprite) {
-        super(sprite);
-    }
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
@@ -49,16 +46,11 @@ public class WalkingEnemy extends Enemy implements ICollidableWithTiles {
                 if(t.collisionSide == t.LEFT){
                     direction = 270;
                 }
-               if(t.collisionSide == t.RIGHT){
-                   direction = 90;
-               }
+                if(t.collisionSide == t.RIGHT){
+                    direction = 90;
+                }
             }
         }
-    }
-
-    @Override
-    public void update() {
-
     }
 }
 

@@ -3,6 +3,8 @@ package nl.han.ica.HoppingAdventure;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
+import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
+import org.w3c.dom.html.HTMLOptGroupElement;
 
 import java.util.List;
 
@@ -11,12 +13,9 @@ public class FlyingEnemy extends Enemy implements ICollidableWithTiles {
     HoppingAdventure world;
 
     public FlyingEnemy(HoppingAdventure world) {
-        this(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Ball_2.png"));
+        super(30);
         this.world = world;
-    }
-
-    private FlyingEnemy(Sprite sprite) {
-        super(sprite);
+        r = 255;
     }
 
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {

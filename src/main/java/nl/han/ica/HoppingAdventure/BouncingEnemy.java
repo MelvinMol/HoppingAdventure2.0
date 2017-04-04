@@ -1,25 +1,29 @@
 package nl.han.ica.HoppingAdventure;
 
-import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
-import processing.core.PGraphics;
-
 import java.util.List;
+
+/**
+ * @author Melvin MoL en Jesse Arends
+ * De klasse voor de springende vijand
+ */
 
 public class BouncingEnemy extends Enemy {
 
     private HoppingAdventure world;
 
+    /**
+     *Constructor
+     * @param world dit is een referencie naar de wereld.
+     */
     public BouncingEnemy(HoppingAdventure world) {
         super(30);
         this.world = world;
         b = 255;
     }
     /**
+     * Verandert de kant die de bouncing enemy op gaat als hij in contact komt met een tile.
      * @param collidedTiles dit zijn alle tiles in de tilemap
-
      */
 
 
@@ -53,6 +57,9 @@ public class BouncingEnemy extends Enemy {
         }
     }
 
+    /**
+     * Zer de zwaartekracht op 1 en de snelheid op 5.
+     */
     @Override
     public void update() {
         setSpeed(5);

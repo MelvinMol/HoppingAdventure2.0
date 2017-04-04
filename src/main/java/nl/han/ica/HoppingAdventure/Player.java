@@ -1,17 +1,19 @@
 package nl.han.ica.HoppingAdventure;
 
+import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
+import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
-import nl.han.ica.OOPDProcessingEngineHAN.Tile.Tile;
 import processing.core.PGraphics;
 import processing.core.PVector;
-
 import java.util.List;
+
+/**
+ * @author Melvin MoL en Jesse Arends
+ * De klasse voor de speler.
+ */
 
 public class Player extends GameObject implements ICollidableWithTiles, ICollidableWithGameObjects {
     private HoppingAdventure world;
@@ -21,7 +23,13 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
     private int right = 'd';
     public static int speed = 10;
     private boolean keya, keyd;
-
+  //  public boolean doodgegaan;
+    /**
+     * Constructor
+     * @param world Referentie naar de wereld
+     * @param deathSound Het geluid dat afgaat als de speler dood gaat
+     * @param size De grootte van de speler.
+     */
     public Player(HoppingAdventure world, Sound deathSound, int size) {
         this.deathSound = deathSound;
         this.world = world;
@@ -30,6 +38,10 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
         setWidth(size);
     }
 
+    /**
+     * Tekent de speler.
+     * @param g PGraphics Zorgt ervoor dat processing werkt.
+     */
     @Override
     public void draw(PGraphics g) {
         g.ellipseMode(g.CORNER);
@@ -38,6 +50,10 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
         g.ellipse(getX(), getY(), size, size);
     }
 
+    /**
+     * Doet iets als de speler een ander game object aanraakt.
+     * @param collidedGameObjects De gameobjects van het spel
+     */
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject a : collidedGameObjects) {
@@ -59,12 +75,15 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
             }
             if (a instanceof SpeedPowerUp) {
                 SpeedPowerUp b = (SpeedPowerUp) a;
-                b.IncreaseSpeed();
+                b.DecreaseSpeed();
             }
         }
     }
 
-
+    /**
+     * Doet iets als het een tile aanraakt
+     * @param collidedTiles Alle tiles in het spel
+     */
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
         PVector vector;
@@ -97,7 +116,9 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
                 if (ct.theTile instanceof SpikeBlock) {
                     deathSound.play();
                     world.deleteAllGameOBjects();
+                   // doodgegaan = true;
                     world.setupGame();
+                  // System.out.println(isDoodGegaan());
                 }
 
                 if (ct.theTile instanceof WeakBlock) {
@@ -109,7 +130,10 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
         }
     }
 
-
+    /**
+     * Zet een boolean aan als je op links of rechts drukt
+     * @param key De knop op je toetsenbord die je indrukt
+     */
     @Override
     public void keyPressed(int keyCode, char key) {
         if (key == left) {
@@ -119,7 +143,10 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
             keyd = true;
         }
     }
-
+    /**
+     * Zet een boolean uit als je links of rechts loslaat
+     * @param key De knop op je toetsenbord die je indrukt
+     */
     @Override
     public void keyReleased(int keyCode, char key) {
         if (key == left) {
@@ -131,6 +158,11 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
 
     }
 
+    /**
+     * Zet de zwaartekracht
+     * Zorg voor beweging
+     * Zorgt voor de collision met de zijkanten van het scherm.
+     */
     public void update() {
         setGravity(1);
 
@@ -155,4 +187,12 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
             world.setupGame();
         }
     }
+   // public boolean isDoodGegaan(){
+    //    if (doodgegaan == true){
+      //      return true;
+     //   }
+     //   else{
+       //     return false;
+      //  }
+   // }
 }

@@ -1,17 +1,17 @@
 package nl.han.ica.HoppingAdventure;
 
-import com.sun.prism.image.ViewPort;
-import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
-import nl.han.ica.OOPDProcessingEngineHAN.Persistence.FilePersistence;
-import nl.han.ica.OOPDProcessingEngineHAN.Persistence.IPersistence;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
 import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileType;
-import nl.han.ica.OOPDProcessingEngineHAN.View.EdgeFollowingViewport;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 import processing.core.PApplet;
+
+/**
+ * @author Melvin MoL en Jesse Arends
+ * Hoofdklasse
+ */
 
 public class HoppingAdventure extends GameEngine {
 
@@ -28,7 +28,9 @@ public class HoppingAdventure extends GameEngine {
         PApplet.main(new String[]{"nl.han.ica.HoppingAdventure.HoppingAdventure"});
     }
 
-    @Override
+    /**
+     * In deze methode worden een aantal dingen aangezet en geinitialiseerd.
+     */
     public void setupGame() {
         int worldWidth = 1000;
         int worldHeight = 1000;
@@ -36,9 +38,18 @@ public class HoppingAdventure extends GameEngine {
         initializeSound();
         initializeTileMap();
         createObjects();
+      //  System.out.println(player.isDoodGegaan());
+        //if (player.isDoodGegaan() == true){
+        //    dartBlock.stopAlarm();
+
+        //}
     }
 
-
+    /**
+     * Maakt een view
+     * @param screenWidth De schermbreedte
+     * @param screenHeight De schermhoogte
+     */
     private void createView(int screenWidth, int screenHeight) {
         View view = new View(screenWidth, screenHeight);
         view.setBackground(255, 255, 255);
@@ -46,12 +57,15 @@ public class HoppingAdventure extends GameEngine {
         size(screenWidth, screenHeight);
     }
 
+    /**
+     * Maakt alle objecten aan.
+     */
     private void createObjects() {
         player = new Player(this, deathSound, 30);
         addGameObject(player, 70, 800);
         walkingEnemy = new WalkingEnemy(this);
         addGameObject(walkingEnemy, 300, 100);
-        finish = new Finish(this, 50);
+        finish = new Finish(this);
         addGameObject(finish, 850, 880);
         bouncingEnemy = new BouncingEnemy(this);
         addGameObject(bouncingEnemy, 600, 300);
@@ -61,9 +75,11 @@ public class HoppingAdventure extends GameEngine {
         addGameObject(flyingEnemy, 400, 400);
         speedPowerUp = new SpeedPowerUp(this);
         addGameObject(speedPowerUp, 400,650);
-
     }
 
+    /**
+     * Initialiseert de tilemap.
+     */
     private void initializeTileMap() {
         Sprite blockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/Block.png");
         Sprite jumpBlockSprite = new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/JumpBlock.png");
@@ -105,6 +121,9 @@ public class HoppingAdventure extends GameEngine {
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 
+    /**
+     * Initialiseert de geluiden.
+     */
     private void initializeSound() {
         deathSound = new Sound(this, "src/main/java/nl/han/ica/HoppingAdventure/Sounds/deathSound.mp3");
 

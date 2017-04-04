@@ -2,24 +2,33 @@ package nl.han.ica.HoppingAdventure;
 
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
-import nl.han.ica.OOPDProcessingEngineHAN.Tile.Tile;
-import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
-import nl.han.ica.waterworld.WaterWorld;
-import processing.core.PGraphics;
+
+/**
+ * @author Melvin MoL en Jesse Arends
+ * De klasse voor de dartblok
+ */
 
 public class DartBlock extends SpriteObject implements IAlarmListener {
 
     private HoppingAdventure world;
-
+    Alarm alarm;
+    /**
+     * Constructor
+     * @param world Referentie naar de wereld.
+     */
     public DartBlock(HoppingAdventure world) {
         super(new Sprite("src/main/java/nl/han/ica/HoppingAdventure/Sprites/DartBlock.png"));
         this.world = world;
+
         startAlarm();
     }
 
+    /**
+     * Als het alarm afgaat, dan maakt hij een dart aan en start hij het alarm opnieuw.
+     * @param alarmName De naam van het alarm.
+     */
     @Override
     public void triggerAlarm(String alarmName) {
         Dart d = new Dart(world);
@@ -27,14 +36,21 @@ public class DartBlock extends SpriteObject implements IAlarmListener {
         startAlarm();
     }
 
+    /**
+     * Initialisatie van het alarm.
+     */
+
     private void startAlarm() {
-        Alarm alarm = new Alarm("DartAlarm", 1.5);
+        alarm = new Alarm("DartAlarm", 1.5);
         alarm.addTarget(this);
         alarm.start();
     }
 
+   // public void stopAlarm() {
+   //    alarm.removeTarget(this);
+  //  }
+
     @Override
     public void update() {
     }
-
 }

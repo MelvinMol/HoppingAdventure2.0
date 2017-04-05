@@ -7,6 +7,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
 import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileType;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /**
  * @author Melvin MoL en Jesse Arends
@@ -20,7 +21,7 @@ public class HoppingAdventure extends GameEngine {
     private WalkingEnemy walkingEnemy;
     private FlyingEnemy flyingEnemy;
     private Finish finish;
-    private SpeedPowerUp speedPowerUp;
+    private SpeedPowerDown speedPowerDown;
     private DartBlock dartBlock;
     private Sound deathSound;
 
@@ -38,11 +39,6 @@ public class HoppingAdventure extends GameEngine {
         initializeSound();
         initializeTileMap();
         createObjects();
-      //  System.out.println(player.isDoodGegaan());
-        //if (player.isDoodGegaan() == true){
-        //    dartBlock.stopAlarm();
-
-        //}
     }
 
     /**
@@ -73,8 +69,15 @@ public class HoppingAdventure extends GameEngine {
         addGameObject(dartBlock, 950, 650);
         flyingEnemy = new FlyingEnemy(this);
         addGameObject(flyingEnemy, 400, 400);
-        speedPowerUp = new SpeedPowerUp(this);
-        addGameObject(speedPowerUp, 400,650);
+        speedPowerDown = new SpeedPowerDown(this);
+        addGameObject(speedPowerDown, 400,650);
+    }
+
+    /**
+     * Verwijder het alarm.
+     */
+    public void removeDartBlockAlarm(){
+        dartBlock.removeAlarm();
     }
 
     /**

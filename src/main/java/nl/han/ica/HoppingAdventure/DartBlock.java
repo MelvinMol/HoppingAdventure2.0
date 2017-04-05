@@ -13,7 +13,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 public class DartBlock extends SpriteObject implements IAlarmListener {
 
     private HoppingAdventure world;
-    Alarm alarm;
+    private Alarm alarm;
     /**
      * Constructor
      * @param world Referentie naar de wereld.
@@ -41,14 +41,17 @@ public class DartBlock extends SpriteObject implements IAlarmListener {
      */
 
     private void startAlarm() {
-        alarm = new Alarm("DartAlarm", 1.5);
+        alarm = new Alarm("DartAlarm", 3);
         alarm.addTarget(this);
         alarm.start();
     }
 
-   // public void stopAlarm() {
-   //    alarm.removeTarget(this);
-  //  }
+    /**
+     * Verwijdert het alarm.
+     */
+    public void removeAlarm(){
+        alarm.removeTarget(this);
+    }
 
     @Override
     public void update() {

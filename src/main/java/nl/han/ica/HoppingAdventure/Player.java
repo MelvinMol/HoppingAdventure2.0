@@ -1,6 +1,7 @@
 package nl.han.ica.HoppingAdventure;
 
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
+import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
@@ -15,7 +16,7 @@ import java.util.List;
  * De klasse voor de speler.
  */
 
-public class Player extends GameObject implements ICollidableWithTiles, ICollidableWithGameObjects {
+public class Player extends GameObject implements ICollidableWithTiles, ICollidableWithGameObjects, IAlarmListener {
     private HoppingAdventure world;
     private Sound deathSound;
     private int size;
@@ -23,7 +24,8 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
     private int right = 'd';
     public static int speed = 10;
     private boolean keya, keyd;
-  //  public boolean doodgegaan;
+    private Alarm alarm;
+
     /**
      * Constructor
      * @param world Referentie naar de wereld
@@ -56,25 +58,26 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
      */
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
+        PGraphics g;
         for (GameObject a : collidedGameObjects) {
 
             if (a instanceof WalkingEnemy || a instanceof BouncingEnemy || a instanceof FlyingEnemy) {
-                world.deleteAllGameOBjects();
-                world.setupGame();
+                dead();
             }
             if (a instanceof Finish) {
-                world.deleteAllGameOBjects();
-                world.setupGame();
-                deathSound.play();
-                System.out.println("WOWOWOWOOWOWOWOWOWOW");
+          System.exit(0);
+
+
+
             }
             if (a instanceof Dart) {
-                deathSound.play();
-                world.deleteAllGameOBjects();
-                world.setupGame();
+            dead();
             }
-            if (a instanceof SpeedPowerUp) {
-                SpeedPowerUp b = (SpeedPowerUp) a;
+            if (a instanceof SpeedPowerDown) {
+                alarm = new Alarm("PowerupAlarm", 3);
+                alarm.addTarget(this);
+                alarm.start();
+                SpeedPowerDown b = (SpeedPowerDown) a;
                 b.DecreaseSpeed();
             }
         }
@@ -114,11 +117,7 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
                 }
 
                 if (ct.theTile instanceof SpikeBlock) {
-                    deathSound.play();
-                    world.deleteAllGameOBjects();
-                   // doodgegaan = true;
-                    world.setupGame();
-                  // System.out.println(isDoodGegaan());
+                    dead();
                 }
 
                 if (ct.theTile instanceof WeakBlock) {
@@ -183,16 +182,31 @@ public class Player extends GameObject implements ICollidableWithTiles, ICollida
             setDirectionSpeed(270, 10);
         }
         if (getY() >= world.getHeight() - size) {
-            world.deleteAllGameOBjects();
-            world.setupGame();
+            dead();
         }
     }
-   // public boolean isDoodGegaan(){
-    //    if (doodgegaan == true){
-      //      return true;
-     //   }
-     //   else{
-       //     return false;
-      //  }
-   // }
+
+    /**
+     * Als de speler in contact komt met iets dat hem zou moeten doden, dan word deze fucnctie uitgevoerd,
+     * waardoor het spel gereset wordt.
+     */
+    private void dead(){
+        deathSound.play();
+        world.deleteAllGameOBjects();
+        world.setupGame();
+        world.removeDartBlockAlarm();
+        if (speed != 10){
+            speed = 10;
+        }
+    }
+
+    /**
+     * Als het alarm afgaat, dan wordt het alarm stopgezet en zet wordt de snelheid van de speler weer teruggezet.
+     * @param alarmName naam van het Alarm
+     */
+    @Override
+    public void triggerAlarm(String alarmName) {
+        alarm.stop();
+        speed = 10;
+    }
 }

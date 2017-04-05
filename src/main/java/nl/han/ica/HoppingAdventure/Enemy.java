@@ -33,6 +33,7 @@ public abstract class Enemy extends GameObject implements ICollidableWithTiles {
      * Tekent de vijanden.
      * @param p Voegt processing toe.
      */
+
     @Override
     public void draw(PGraphics p) {
         p.ellipseMode(p.CORNER);
